@@ -1,1 +1,7 @@
-/target
+build/
+build/.*
+target/
+target/.*
+compile_commands.json
+.cache/
+.cache/.*
