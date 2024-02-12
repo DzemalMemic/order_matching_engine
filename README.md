@@ -1,3 +1,5 @@
+[![Build App](https://github.com/rust-oms/order_matching_engine/actions/workflows/build.yml/badge.svg)](https://github.com/rust-oms/order_matching_engine/actions/workflows/build.yml)
+
 # order_matching_engine
 Order matching engine written in rust
 
