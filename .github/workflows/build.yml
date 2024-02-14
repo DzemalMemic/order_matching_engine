@@ -1,26 +1,47 @@
 name: Build App
 
 on:
+  pull_request:
+    branches: [ development ]
   push:
-    branches: [ master ]
+    branches: [ development ]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
+
     - name: Set up Rust
       uses: actions-rs/toolchain@v1
       with:
         toolchain: stable
         override: true
         components: clippy
+
     - name: Check with Clippy
       run: cargo clippy -- -D warnings
+
     - name: Build
       uses: actions-rs/cargo@v1
       with:
         command: build
         args: --verbose
+
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        override: true
+
+    - name: Run Tests
+      run: cargo test --verbose
+
