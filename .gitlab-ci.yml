@@ -1,0 +1,40 @@
+stages:
+  - build
+  - test
+
+variables:
+  CARGO_HOME: "$CI_PROJECT_DIR/.cargo"
+
+cache:
+  paths:
+    - target/
+    - $CARGO_HOME/registry/
+
+build_job:
+  stage: build
+  image: rust:latest
+  script:
+    - cargo build --verbose
+  artifacts:
+    paths:
+      - target/
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH == "development"'
+      changes:
+        - "**/*.rs"
+        - "Cargo.toml"
+        - "Cargo.lock"
+
+test_job:
+  stage: test
+  image: rust:latest
+  script:
+    - cargo test --verbose
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH == "development"'
+      changes:
+        - "**/*.rs"
+        - "Cargo.toml"
+        - "Cargo.lock"
