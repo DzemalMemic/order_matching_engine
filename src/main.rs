@@ -1,4 +1,4 @@
-use order_matching_engine::trade::{Trade, TradeStatus};
+use order_matching_engine::trade::Trade;
 
 use {chrono::Utc, order_matching_engine::order::Order, rust_decimal::Decimal, uuid::Uuid};
 use {
@@ -22,18 +22,14 @@ fn main() {
 
     // region: create trade
     let trade = Trade::new(
-        Uuid::new_v4(),
-        Uuid::new_v4(),
-        OrderType::Limit,
-        Decimal::new(50, 2),  // 50.00
+        String::from("Binance"),
         Decimal::new(50, 2),  // 50.00
         Decimal::new(385, 2), // 385.00
         Decimal::new(1, 2),   // 1.00
         Utc::now(),
         String::from("AAPL"),
-        Side::Bid,
-        TradeStatus::Executed,
     );
+
     println!("Created trade: {:?}", trade);
     // endregion: create trade
 }
